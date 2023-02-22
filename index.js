@@ -1,7 +1,21 @@
 const pyramid = document.querySelector(".pyramid")
 const btns = document.querySelector(".btns")
 const template = document.querySelector(".template")
+const startMenu = document.querySelector(".startPopUp")
+const skipMenu = document.querySelector(".skipPopup")
+const skipText = document.querySelector(".skipPopup h3")
+
+let words = []
+
+for (let i = 0; i < 5; i++) {
+    words.push([])
+    for (let x = 0; x <= i; x++) {
+        words[i].push("")
+    }
+}
+
 let skipNum = 0;
+let maxSkips = -1;
 
 function getOffset(el) {
     const rect = el.getBoundingClientRect();
@@ -12,13 +26,15 @@ function getOffset(el) {
   }
 
 function createBoard() {
-    for (let i = 1; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
         let row = document.createElement("div")
         row.classList.add("row")
-        for (let x = 0; x < i; x++) {
+        for (let x = 0; x <= i; x++) {
             let box = document.createElement("div")
             box.classList.add("box")
             box.classList.add("standingBox")
+            box.dataset.row = i
+            box.dataset.pos = x
             box.addEventListener("click", moveBox)
             row.appendChild(box)
         }
@@ -63,16 +79,51 @@ function genNewLetter() {
 }
 
 document.querySelector(".skip").addEventListener("click", (e) => {
-    if (skipNum++ < 9) {
+    if (skipNum < maxSkips) {
         document.querySelector(".letter").remove()
         genNewLetter()
+        skipNum++
     }
+    skipMenu.id = "turnedOn"
+    let x = e.clientX
+    let y = e.clientY
+
+    let offX = x-e.offsetX
+    let offY = y-e.offsetY-90
+
+    skipText.textContent = `${skipNum}/${maxSkips}`
+
+    skipMenu.style.left = offX+"px"
+    skipMenu.style.top = offY+"px"
+    setTimeout(() => {
+        skipMenu.id = ""
+    }, 1000)
 })
 
-document.querySelector(".retry").addEventListener("click", (elm) => {
+document.querySelector(".retry").addEventListener("click", (e) => {
     document.querySelectorAll(".archived").forEach((let) => {
         let.remove()
     })
     document.querySelector(".letter").remove()
     genNewLetter()
+    skipNum=0
 })
+
+document.querySelector(".play").addEventListener("click", (e)=> {
+    if (maxSkips != -1) {
+        startMenu.style.display = "none"
+        pyramid.style.display = "block"
+    }  
+})
+
+document.querySelectorAll(".difficultyOptions h3").forEach((elm) => {
+    elm.addEventListener("click", (e) => {
+        let prev = document.querySelector(".selected")
+        if (prev) {prev.classList.remove("selected")}
+        elm.classList.add("selected")
+
+        maxSkips=elm.dataset.num
+    })  
+})
+
+genNewLetter()

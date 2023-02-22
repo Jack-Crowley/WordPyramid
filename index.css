@@ -11,6 +11,12 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+.pyramid {
+    width: 50vw;
+    margin: auto 0;
+    display: none;
+}
+
 .row {
     display: flex;
     justify-content: center;
@@ -25,6 +31,9 @@ body {
     justify-content: center;
     align-items: center;
     transition: transform .3s ease-in;
+    -moz-box-shadow: 5px 5px 5px #222;
+    -webkit-box-shadow: 5px 5px 5px #222;
+    box-shadow: 5px 5px 5px #222;
 }
 
 .row .box {
@@ -34,11 +43,6 @@ body {
 .standingBox:hover {
     background-color: #6f7b8f;
     cursor: pointer;
-}
-
-.pyramid {
-    width: 50vw;
-    margin: auto 0;
 }
 
 .btns {
@@ -93,4 +97,91 @@ body {
 .endGamePopup {
     display: none;
     position: absolute;
+}
+
+.startPopUp {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    color: white;
+    font-size: 3em;
+}
+
+.difficultyOptions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+}
+
+.difficultyOptions h3 {
+    text-align: center;
+    padding: 10%;
+    color: white;
+}
+
+.difficultyOptions h3:hover {
+    cursor: pointer;
+}
+
+.easy {
+    background-color: #33b907;
+    border: #33b907 solid 2px;
+}
+
+.med {
+    background-color: #eda916;
+}
+
+.hard {
+    background-color: #ed4116;
+}
+
+.xtrm {
+    background-color: #391309;
+}
+
+.play {
+    background-color: #49e614;
+    border-radius: 50%;
+    margin: auto;
+}
+
+.play:hover {
+    cursor: pointer
+}
+
+.imgHolder {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.selected {
+    border: 2px solid aqua;
+}
+
+.skipPopup {
+    position: absolute;
+    opacity: 0;
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -o-transition: opacity .5s ease-in-out;
+    transition: opacity .5s ease-in-out;
+    height: 50px;
+    background-color: rgba(133, 247, 249, 0.8);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+#turnedOn {
+    opacity: 1;
+}
+
+.skipPopup h3 {
+    font-size: 50px;
 }
