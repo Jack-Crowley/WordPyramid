@@ -10,15 +10,6 @@ const wordMenu = document.querySelector(".words")
 let words = []
 let wordList = []
 
-for (let i = 0; i < 5; i++) {
-    words.push([])
-    for (let x = 0; x <= i; x++) {
-        words[i].push("")
-    }
-}
-
-console.log(words)
-
 let skipNum = 0;
 let maxSkips = -1;
 
@@ -48,6 +39,8 @@ function createBoard() {
 }
 
 function checkEnd() {
+    console.log("CHECKED WIN")
+
     for (let i = 0; i < words.length; i++) {
         if (words[i].indexOf('') != -1) return false
     }
@@ -132,6 +125,7 @@ document.querySelector(".retry").addEventListener("click", (e) => {
         let.remove()
     })
     document.querySelector(".letter").remove()
+    genWordArray()
     genNewLetter()
     skipNum=0
 })
@@ -155,23 +149,23 @@ document.querySelectorAll(".difficultyOptions h3").forEach((elm) => {
 
 function genWords()
 {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "Words/words.txt", false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                let allText = rawFile.responseText.toString();
-                
-                wordList = allText.split("\r\n")
-            }
-        }
-    }
-    rawFile.send(null);
+    const url = "https://jack-crowley.github.io/WordPyramid/Words/words.txt"
+    fetch(url)
+    .then( r => r.text() )
+    .then( t => wordList = t.split("\n"))
+
 }
 
+function genWordArray() {
+    for (let i = 0; i < 5; i++) {
+        words.push([])
+        for (let x = 0; x <= i; x++) {
+            words[i].push("")
+        }
+    }
+}
+
+genWordArray();
 createBoard()
 genNewLetter()
 genWords()
