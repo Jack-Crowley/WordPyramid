@@ -8,6 +8,7 @@ const skipText = document.querySelector(".skipPopup h3")
 const wordMenu = document.querySelector(".words")
 
 let words = []
+let wordList = []
 
 for (let i = 0; i < 5; i++) {
     words.push([])
@@ -52,7 +53,8 @@ function checkEnd() {
     }
     
     for (let i = 0; i < words.length; i++) {
-        wordMenu.children[i].textContent += words[i].join("")
+        let extension = (wordList.includes(words[i].join("").toLowerCase())) ? "Valid" : "Not Valid"
+        wordMenu.children[i].textContent += words[i].join("") + " " + extension
     }
 
     endMenu.style.display="flex"
@@ -151,5 +153,25 @@ document.querySelectorAll(".difficultyOptions h3").forEach((elm) => {
     })  
 })
 
+function genWords()
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", "Words/words.txt", false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                let allText = rawFile.responseText.toString();
+                
+                wordList = allText.split("\r\n")
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
 createBoard()
 genNewLetter()
+genWords()
