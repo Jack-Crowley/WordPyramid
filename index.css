@@ -94,15 +94,14 @@ body {
     position: absolute;
 }
 
-.endGamePopup {
-    display: none;
-    position: absolute;
-}
-
-.startPopUp {
+.startPopUp, .popup {
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.endGamePopup {
+    display: none;
 }
 
 .title {
@@ -184,4 +183,9 @@ body {
 
 .skipPopup h3 {
     font-size: 50px;
+}
+
+.words h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
 }

@@ -2,8 +2,10 @@ const pyramid = document.querySelector(".pyramid")
 const btns = document.querySelector(".btns")
 const template = document.querySelector(".template")
 const startMenu = document.querySelector(".startPopUp")
+const endMenu = document.querySelector(".endGamePopup")
 const skipMenu = document.querySelector(".skipPopup")
 const skipText = document.querySelector(".skipPopup h3")
+const wordMenu = document.querySelector(".words")
 
 let words = []
 
@@ -13,6 +15,8 @@ for (let i = 0; i < 5; i++) {
         words[i].push("")
     }
 }
+
+console.log(words)
 
 let skipNum = 0;
 let maxSkips = -1;
@@ -42,9 +46,29 @@ function createBoard() {
     }
 }
 
-createBoard()
+function checkEnd() {
+    for (let i = 0; i < words.length; i++) {
+        if (words[i].indexOf('') != -1) return false
+    }
+    
+    for (let i = 0; i < words.length; i++) {
+        wordMenu.children[i].textContent += words[i].join("")
+    }
+
+    endMenu.style.display="flex"
+    pyramid.style.display="none"
+
+
+}
 
 function moveBox(e) {
+    let elm = e.target
+    let r = elm.dataset.row
+    let c = elm.dataset.pos
+
+    let text = document.querySelector(".letter h3").textContent
+    words[r][c] = text
+
     let x = e.clientX
     let y = e.clientY
 
@@ -63,6 +87,7 @@ function moveBox(e) {
     lett.classList.add("archived")
     lett.classList.remove("letter")
 
+    checkEnd()
     genNewLetter()
 }
 
@@ -126,4 +151,5 @@ document.querySelectorAll(".difficultyOptions h3").forEach((elm) => {
     })  
 })
 
+createBoard()
 genNewLetter()
